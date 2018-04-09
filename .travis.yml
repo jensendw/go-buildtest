@@ -2,3 +2,9 @@ language: go
 
 go:
   - "1.10"
+
+script:
+  - dep ensure
+  - go test
+  - gox -os="linux darwin windows" -arch="amd64" -output="logshare.{{.OS}}.{{.Arch}}" -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose
+  - ls
