@@ -1,15 +1,25 @@
 language: go
-
 go:
-  - "1.10"
-
+- '1.10'
 before_install:
-  - go get github.com/mitchellh/gox
-  - curl -L -s https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 -o $GOPATH/bin/dep
-  - chmod +x $GOPATH/bin/dep
-
+- go get github.com/mitchellh/gox
+- curl -L -s https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64
+  -o $GOPATH/bin/dep
+- chmod +x $GOPATH/bin/dep
 script:
-  - dep ensure
-  - go test
-  - gox -os="linux darwin windows" -arch="amd64" -output="logshare.{{.OS}}.{{.Arch}}" -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose
-  - ls
+- dep ensure
+- go test
+- gox -os="linux darwin windows" -arch="amd64" -output="logshare.{{.OS}}.{{.Arch}}"
+  -ldflags "-X main.Rev=`git rev-parse --short HEAD`" -verbose
+- ls
+deploy:
+  provider: releases
+  api_key:
+    secure: pHTeIp8nky8Jmiz6PQClysE21fNYHYFJnoi07blXwhgq9McET4/QGoVMwUAtGARDbpJg96jjwzntL8R1ck1fnM576bPEv1UigirFk9xcHG8yE2JJjXEgpDCnRqovUFmXLPHao0LOI0EEcM14ANayIbOQO8rzYvDAhmLdzYLRhL+PTliR00JnHCJ7KcNJiFYUcTFWi6yoEq5x68T3UA2SMEwTfbqG6WwDUqCGnJ8n7vIXBiAL4fnZ3injPGb73Ab2sBrrDL1/SJNJ6eRDiznUPbGjMJYXQ7VZ73xcDtnK8RWowTyOXsbK7AqpR7pTJxSF9FhLMDBXvlntVe+u+4oB4+B36wTN8GDRW94LlC/5ecFK+g7eCS6X3OkTIXiCLG1mgh6waJTGuBciM5DXsO6PhnH2yCAtxhh6QNga1oexWhukdjn197hM25guAGvsNAWkdD76ukJgGutmra4vPE2KIWAHG1hEh7eF8cdPbutqbFr17Hu8bU6oVWPH3FGPM2QaAV7QSLQCRpgdMCphBXv0hEw1R1M53GbH49tuRsgEZYZ6YN5qNOqvK+ZTR5TqOBSW5rTgR7jZR3NT3jFeYgbVAuV+HLT3/Q5oqJFMA72uey4nRUDkm5zTC0LidfErnBItFNgrV/9TzWJg5s9mpeaCgz2eIAGjLEFujFO1nmMPx0I=
+  file:
+    - logshare.windows.amd64.exe
+    - logshare.darwin.amd64
+    - logshare.linux.amd64
+  on:
+    repo: jensendw/go-buildtest
+    tags: true
