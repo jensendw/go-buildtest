@@ -9,7 +9,7 @@ before_install:
 script:
 - dep ensure
 - go test
-- gox -os="linux darwin windows" -arch="amd64" -output="gollum-$(git rev-parse --short HEAD).{{.OS}}.{{.Arch}}"
+- gox -os="linux darwin windows" -arch="amd64" -output="gollum-$TRAVIS_TAG.{{.OS}}.{{.Arch}}"
   -ldflags "-X main.Version=`git rev-parse --short HEAD`" -verbose
 - ls
 deploy:
