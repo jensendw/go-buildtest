@@ -5,6 +5,9 @@ import (
 	consulapi "github.com/hashicorp/consul/api"
 )
 
+//Version, sets the version
+var Version string
+
 func main() {
 	fmt.Println("hello world")
 }
